@@ -1,0 +1,56 @@
+﻿@using SurveyAPI.Constants
+@using SurveyMVC.ViewModels
+@model List<SurveyQuestionData>
+@{
+    ViewData["Title"] = "Question Details";
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<form asp-action="SubmitSurvey">
+    <h5>Fill Survey Question Answers</h5>
+    @for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="mt-3">
+            @if (Model[i].AnswerType == AnswerType.FreeText)
+            {
+                <label class="control-label">@Model[i].QuestionText</label>
+                <input type="text" class="form-control" name="answers[@i].AnswerText" />
+                <input type="hidden" name="answers[@i].QuestionId" value="@Model[i].QuestionId" />
+            }
+            else if (Model[i].AnswerType == AnswerType.YesNo)
+            {
+                
+                <div class="form-check form-check-inline">                    
+                    <label for="checkbox_@i" class="form-check-label">@Model[i].QuestionText</label>
+                    <input type="checkbox" class="form-check-input" id="checkbox_@i" data-index="@i" />
+                    <input type="hidden" id="answer_checkbox_@i" name="answers[@i].AnswerText" value="No" />
+                    <input type="hidden" name="answers[@i].QuestionId" value="@Model[i].QuestionId" />
+                </div>
+            }
+        </div>
+    }
+    <div class="mt-3">
+        <input type="submit" value="Submit" class="btn btn-primary" />
+    </div>
+</form>
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('input[type="checkbox"]').change(function () {
+                var index = $(this).data('index');
+                var hiddenInput = $('#answer_checkbox_' + index);
+
+                if ($(this).is(':checked')) {
+                    hiddenInput.val('Yes');
+                } else {
+                    hiddenInput.val('No');
+                }
+            });
+        });
+    </script>
+}

@@ -1,0 +1,29 @@
+﻿@using SurveyAPI.Constants
+@using SurveyMVC.ViewModels
+@{
+    ViewData["Title"] = "Survey Summary";
+}
+
+@model SurveySummaryData
+
+<h5>Survey Summary</h5>
+@if (Model != null)
+{
+    <p>Total Questions: @Model.TotalQuestions</p>
+    <p>Total Answers: @Model.TotalAnswers</p>
+    <p>Response Rate: @Model.ResponseRate</p>
+
+    @foreach (var question in Model.QuestionAnswers)
+    {
+        <div>
+            <p>Question Text: @question.QuestionText</p>
+            <p>Answer Type : @question.AnswerType</p>
+            <ul>
+                @foreach (var answer in question.Answers)
+                {
+                    <li>@answer.AnswerText</li>
+                }
+            </ul>
+        </div>
+    }
+}

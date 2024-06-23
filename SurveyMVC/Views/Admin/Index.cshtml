@@ -1,0 +1,31 @@
+﻿@using SurveyAPI.Constants
+@using SurveyMVC.ViewModels
+@model SurveyQuestionData
+
+@{
+    ViewData["Title"] = "Create Survey Question";
+}
+
+<h5>Create Survey Question</h5>
+
+<form asp-action="Create" method="post">
+    <div class="mt-3">
+        <label asp-for="QuestionText" class="control-label">Question Text</label>
+        <input asp-for="QuestionText" class="form-control" />
+        <span asp-validation-for="QuestionText" class="text-danger"></span>
+    </div>
+    <div class="mt-3">
+        <label asp-for="AnswerType" class="control-label">Answer Type</label>
+        <select asp-for="AnswerType" class="form-control" asp-items="Html.GetEnumSelectList<AnswerType>()"></select>
+        <span asp-validation-for="AnswerType" class="text-danger"></span>
+    </div>
+    <div class="mt-3">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
